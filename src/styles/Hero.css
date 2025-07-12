@@ -380,10 +380,35 @@
   flex-direction: column;
   justify-content: center;
   overflow: hidden;
+  background: #E23744; /* Zomato red background before video loads */
 }
 
 .hero-top-section.with-video {
-  background: none;
+  background: #E23744; /* Keep red background until video loads */
+}
+
+.hero-top-section.with-video.video-loading {
+  background: #E23744; /* Zomato red background while video is loading */
+}
+
+.hero-top-section.with-video.video-loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top: 3px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  z-index: 1;
+}
+
+@keyframes spin {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
 .hero-top-section .hero-video-container {
@@ -394,6 +419,12 @@
   height: 100%;
   z-index: 0;
   overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.hero-top-section .hero-video-container.video-loaded {
+  opacity: 1;
 }
 
 .hero-top-section .hero-video {

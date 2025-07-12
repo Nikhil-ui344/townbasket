@@ -17,6 +17,7 @@ const Hero: React.FC<HeroProps> = ({
   enableVideo = false 
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [videoLoaded, setVideoLoaded] = useState(false);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,6 +27,7 @@ const Hero: React.FC<HeroProps> = ({
 
   const handleVideoLoad = () => {
     // Video loaded successfully
+    setVideoLoaded(true);
     console.log('Video loaded');
   };
 
@@ -39,10 +41,10 @@ const Hero: React.FC<HeroProps> = ({
   return (
     <section className={`hero ${enableVideo ? 'hero-with-video' : ''} ${className}`} id="home">
       {/* Hero Top Section with Video Background */}
-      <div className={`hero-top-section ${enableVideo ? 'with-video' : ''}`}>
+      <div className={`hero-top-section ${enableVideo ? 'with-video' : ''} ${enableVideo && !videoLoaded ? 'video-loading' : ''}`}>
         {/* Video Background - Only for top section */}
         {enableVideo && videoSrc && (
-          <div className="hero-video-container">
+          <div className={`hero-video-container ${videoLoaded ? 'video-loaded' : ''}`}>
             <video
               className="hero-video"
               autoPlay
