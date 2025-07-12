@@ -9,8 +9,22 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(to bottom, #ffffff, #E23744);
+  background: linear-gradient(to bottom, #ffffff 0%, #fef2f2 25%, #fee2e2 50%, #fecaca 75%, #E23744 100%);
   overflow: hidden;
+}
+
+.loading-screen::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(ellipse at top, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(ellipse at bottom, rgba(226, 55, 68, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
 }
 
 /* Animated Background */
@@ -34,7 +48,7 @@
 .orb-1 {
   width: 300px;
   height: 300px;
-  background: linear-gradient(45deg, #E23744, #ff6b9d);
+  background: radial-gradient(circle, rgba(226, 55, 68, 0.3) 0%, rgba(255, 107, 157, 0.2) 50%, transparent 100%);
   top: 10%;
   left: 10%;
 }
@@ -42,7 +56,7 @@
 .orb-2 {
   width: 400px;
   height: 400px;
-  background: linear-gradient(45deg, #E23744, #dc2626);
+  background: radial-gradient(circle, rgba(226, 55, 68, 0.25) 0%, rgba(220, 38, 38, 0.15) 50%, transparent 100%);
   top: 60%;
   right: 10%;
 }
@@ -50,7 +64,7 @@
 .orb-3 {
   width: 250px;
   height: 250px;
-  background: linear-gradient(45deg, #ffffff, #fecaca);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, rgba(254, 202, 202, 0.2) 50%, transparent 100%);
   bottom: 10%;
   left: 50%;
   transform: translateX(-50%);
@@ -59,7 +73,7 @@
 /* Main Content */
 .loading-content {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   text-align: center;
   max-width: 400px;
   width: 100%;
@@ -146,9 +160,9 @@
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #ffffff 0%, #E23744 50%, #dc2626 100%);
+  background: linear-gradient(90deg, #ffffff 0%, #fef2f2 25%, #fee2e2 50%, #fecaca 75%, #E23744 100%);
   border-radius: 2px;
-  box-shadow: 0 0 10px rgba(226, 55, 68, 0.5);
+  box-shadow: 0 0 15px rgba(226, 55, 68, 0.4);
   position: relative;
 }
 

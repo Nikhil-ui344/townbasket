@@ -69,7 +69,7 @@ const Navigation: React.FC<NavigationProps> = ({ className = '' }) => {
         <div className="navbar-container">
           {/* Logo */}
           <a href="#home" className="navbar-logo" onClick={() => setCurrentView('home')}>
-            <div className="logo-icon">🍔</div>
+            <div className="logo-icon"></div>
             <span>Town Basket</span>
           </a>
 
