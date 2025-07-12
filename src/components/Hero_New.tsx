@@ -17,7 +17,6 @@ const Hero: React.FC<HeroProps> = ({
   enableVideo = false 
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [videoLoaded, setVideoLoaded] = useState(false);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,7 +25,8 @@ const Hero: React.FC<HeroProps> = ({
   };
 
   const handleVideoLoad = () => {
-    setVideoLoaded(true);
+    // Video loaded successfully
+    console.log('Video loaded');
   };
 
   const stats = [
