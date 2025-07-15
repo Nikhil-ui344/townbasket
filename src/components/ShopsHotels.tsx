@@ -15,9 +15,10 @@ interface Shop {
 
 interface ShopsHotelsProps {
   className?: string;
+  onStoreSelect?: (storeId: string) => void;
 }
 
-const ShopsHotels: React.FC<ShopsHotelsProps> = ({ className = '' }) => {
+const ShopsHotels: React.FC<ShopsHotelsProps> = ({ className = '', onStoreSelect }) => {
   const restaurants: Shop[] = [
     {
       id: '1',
@@ -114,6 +115,8 @@ const ShopsHotels: React.FC<ShopsHotelsProps> = ({ className = '' }) => {
       viewport={{ once: true }}
       whileHover={{ scale: 1.02, y: -5 }}
       whileTap={{ scale: 0.98 }}
+      onClick={() => onStoreSelect?.(shop.id)}
+      style={{ cursor: 'pointer' }}
     >
       <div className="shop-image">
         <span className="shop-icon">{shop.image}</span>

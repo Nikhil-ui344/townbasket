@@ -6,6 +6,8 @@ export interface User {
   email: string;
   role: 'customer' | 'admin' | 'vendor';
   avatar?: string;
+  storeId?: string; // For vendors to associate with specific stores
+  storeName?: string;
 }
 
 interface AuthContextType {
@@ -34,9 +36,27 @@ const DEMO_USERS: User[] = [
   },
   {
     id: '3',
-    name: 'Vendor Smith',
-    email: 'vendor@demo.com',
+    name: 'Mario Rossi',
+    email: 'vendor1@demo.com',
     role: 'vendor',
+    storeId: '1',
+    storeName: 'Pizza Palace',
+  },
+  {
+    id: '4',
+    name: 'John Smith',
+    email: 'vendor2@demo.com',
+    role: 'vendor',
+    storeId: '2',
+    storeName: 'Burger House',
+  },
+  {
+    id: '5',
+    name: 'Raj Patel',
+    email: 'vendor3@demo.com',
+    role: 'vendor',
+    storeId: '3',
+    storeName: 'Spice Garden',
   },
 ];
 
