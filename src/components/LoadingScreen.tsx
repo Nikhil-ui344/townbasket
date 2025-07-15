@@ -16,24 +16,13 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({
   minDuration = 2000 
 }) => {
   const [progress, setProgress] = useState(0);
-  const [loadingText, setLoadingText] = useState('Loading');
-
-  const loadingMessages = [
-    'Preparing your experience...',
-    'Fetching fresh ingredients...',
-    'Connecting to restaurants...',
-    'Almost ready to serve...',
-    'Welcome to Town Basket!'
-  ];
 
   useEffect(() => {
     if (!isLoading) return;
 
     let progressInterval: number;
-    let textInterval: number;
-    let messageIndex = 0;
 
-    // Progress animation
+    // Smooth progress animation
     if (showProgress) {
       progressInterval = setInterval(() => {
         setProgress(prev => {
@@ -41,28 +30,23 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({
             clearInterval(progressInterval);
             return 100;
           }
-          return prev + Math.random() * 15 + 5;
+          // More realistic loading progression
+          const increment = prev < 50 ? Math.random() * 8 + 2 : Math.random() * 4 + 1;
+          return Math.min(prev + increment, 100);
         });
-      }, 200);
+      }, 150);
     }
-
-    // Text animation
-    textInterval = setInterval(() => {
-      setLoadingText(loadingMessages[messageIndex]);
-      messageIndex = (messageIndex + 1) % loadingMessages.length;
-    }, 500);
 
     // Complete loading after minimum duration
     const completeTimer = setTimeout(() => {
       setProgress(100);
       setTimeout(() => {
         onComplete?.();
-      }, 500);
+      }, 300);
     }, minDuration);
 
     return () => {
       clearInterval(progressInterval);
-      clearInterval(textInterval);
       clearTimeout(completeTimer);
     };
   }, [isLoading, showProgress, minDuration, onComplete]);
@@ -74,204 +58,130 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({
           className="loading-screen"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          exit={{ opacity: 0, scale: 1.1 }}
-          transition={{ duration: 0.5, ease: "easeInOut" }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3, ease: "easeInOut" }}
         >
-          {/* Animated Background */}
+          {/* Subtle Background Pattern */}
           <div className="loading-background">
-            <motion.div
-              className="gradient-orb orb-1"
-              animate={{
-                scale: [1, 1.2, 1],
-                rotate: [0, 180, 360],
-                opacity: [0.6, 0.8, 0.6],
-              }}
-              transition={{
-                duration: 4,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            />
-            <motion.div
-              className="gradient-orb orb-2"
-              animate={{
-                scale: [1.2, 1, 1.2],
-                rotate: [360, 180, 0],
-                opacity: [0.4, 0.6, 0.4],
-              }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: 1,
-              }}
-            />
-            <motion.div
-              className="gradient-orb orb-3"
-              animate={{
-                scale: [1, 1.3, 1],
-                rotate: [0, -180, -360],
-                opacity: [0.5, 0.7, 0.5],
-              }}
-              transition={{
-                duration: 5,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: 2,
-              }}
-            />
+            <div className="gradient-mesh"></div>
           </div>
 
           {/* Main Content */}
           <div className="loading-content">
-            {/* Logo Animation */}
+            {/* Logo */}
             <motion.div
               className="loading-logo"
-              initial={{ scale: 0, rotate: -180 }}
-              animate={{ scale: 1, rotate: 0 }}
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
               transition={{
-                duration: 1,
+                duration: 0.6,
                 ease: "easeOut",
-                type: "spring",
-                stiffness: 100,
               }}
             >
-              <motion.div
-                className="logo-icon"
-                animate={{
-                  y: [-5, 5, -5],
-                  rotate: [-2, 2, -2],
-                }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-              >
-                🏪
-              </motion.div>
-              <motion.h1
-                className="logo-text"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5, duration: 0.8 }}
-              >
-                Town Basket
-              </motion.h1>
-            </motion.div>
-
-            {/* Loading Animation */}
-            <motion.div
-              className="loading-animation"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1, duration: 0.8 }}
-            >
-              {/* Pulsing Dots */}
-              <div className="loading-dots">
-                {[0, 1, 2].map((index) => (
-                  <motion.div
-                    key={index}
-                    className="loading-dot"
-                    animate={{
-                      scale: [1, 1.5, 1],
-                      opacity: [0.6, 1, 0.6],
-                    }}
-                    transition={{
-                      duration: 1.2,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                      delay: index * 0.2,
-                    }}
-                  />
-                ))}
-              </div>
-
-              {/* Spinning Ring */}
-              <motion.div
-                className="loading-ring"
-                animate={{ rotate: 360 }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  ease: "linear",
-                }}
-              />
-            </motion.div>
-
-            {/* Progress Bar */}
-            {showProgress && (
-              <motion.div
-                className="progress-container"
-                initial={{ opacity: 0, width: 0 }}
-                animate={{ opacity: 1, width: "300px" }}
-                transition={{ delay: 1.5, duration: 0.8 }}
-              >
-                <div className="progress-bar">
-                  <motion.div
-                    className="progress-fill"
-                    initial={{ width: "0%" }}
-                    animate={{ width: `${Math.min(progress, 100)}%` }}
-                    transition={{ duration: 0.3, ease: "easeOut" }}
-                  />
-                </div>
+              <div className="logo-container">
                 <motion.div
-                  className="progress-text"
-                  key={Math.floor(progress / 10)}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  {Math.floor(progress)}%
-                </motion.div>
-              </motion.div>
-            )}
-
-            {/* Loading Text */}
-            <motion.div
-              className="loading-text-container"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 2, duration: 0.8 }}
-            >
-              <AnimatePresence mode="wait">
-                <motion.p
-                  key={loadingText}
-                  className="loading-text"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.4 }}
-                >
-                  {loadingText}
-                </motion.p>
-              </AnimatePresence>
-            </motion.div>
-
-            {/* Floating Food Icons */}
-            <div className="floating-icons">
-              {['🍕', '🍔', '🌮', '🍜', '🍰', '🥗'].map((icon, index) => (
-                <motion.div
-                  key={index}
-                  className={`floating-icon icon-${index}`}
+                  className="logo-icon"
                   animate={{
-                    y: [-20, 20, -20],
-                    x: [-10, 10, -10],
-                    rotate: [-5, 5, -5],
-                    opacity: [0.6, 1, 0.6],
+                    scale: [1, 1.05, 1],
                   }}
                   transition={{
-                    duration: 3 + index * 0.5,
+                    duration: 2,
                     repeat: Infinity,
                     ease: "easeInOut",
-                    delay: index * 0.3,
                   }}
                 >
-                  {icon}
+                  🏪
                 </motion.div>
-              ))}
-            </div>
+                <h1 className="logo-text">Town Basket</h1>
+                <p className="logo-subtitle">Premium Food Delivery</p>
+              </div>
+            </motion.div>
+
+            {/* Modern Loading Animation */}
+            <motion.div
+              className="loading-animation"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.6 }}
+            >
+              {/* Elegant Spinner */}
+              <div className="spinner-container">
+                <motion.div
+                  className="spinner"
+                  animate={{ rotate: 360 }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "linear",
+                  }}
+                />
+                <motion.div
+                  className="spinner-inner"
+                  animate={{ rotate: -360 }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "linear",
+                  }}
+                />
+              </div>
+
+              {/* Progress Bar */}
+              {showProgress && (
+                <motion.div
+                  className="progress-container"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.5, duration: 0.4 }}
+                >
+                  <div className="progress-track">
+                    <motion.div
+                      className="progress-fill"
+                      initial={{ width: "0%" }}
+                      animate={{ width: `${Math.min(progress, 100)}%` }}
+                      transition={{ duration: 0.3, ease: "easeOut" }}
+                    />
+                  </div>
+                  <motion.span
+                    className="progress-text"
+                    key={Math.floor(progress / 5)}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    {Math.floor(progress)}%
+                  </motion.span>
+                </motion.div>
+              )}
+
+              {/* Loading Status */}
+              <motion.div
+                className="loading-status"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.8, duration: 0.4 }}
+              >
+                <div className="status-dots">
+                  {[0, 1, 2].map((index) => (
+                    <motion.div
+                      key={index}
+                      className="status-dot"
+                      animate={{
+                        scale: [1, 1.2, 1],
+                        opacity: [0.5, 1, 0.5],
+                      }}
+                      transition={{
+                        duration: 1.2,
+                        repeat: Infinity,
+                        delay: index * 0.2,
+                        ease: "easeInOut",
+                      }}
+                    />
+                  ))}
+                </div>
+                <p className="status-text">Preparing your experience</p>
+              </motion.div>
+            </motion.div>
           </div>
         </motion.div>
       )}

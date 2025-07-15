@@ -120,7 +120,7 @@
 
 /* Outline Button */
 .btn-outline {
-  background: transparent;
+  background:var(--white);
   color: var(--primary-red);
   border: 2px solid var(--primary-red);
   box-shadow: none;
